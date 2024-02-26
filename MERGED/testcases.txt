@@ -1,0 +1,19 @@
+Testcase 1: Create a directory, add 2 files to it, commit and push.
+Input: Create directory ABC, add 2 files test1 & test2, commit and push changes, compare files in Server and Client.
+Output: Server and Client both have the directory ABC which contains test1 and test2. The files should be the same (no differences).
+
+Testcase 2: Create a directory, add 2 files, commit & push, add 2 more files, commit & push, show history/currentversions, then rollback to the first version.
+Input: Create directory ABC, add 2 files test1 & test2, commit and push changes, add 2 files test 3 & test4, commit and push, check the history and current version, compare the files in Server and Client (should be the same), then rollback to the original version with just 2 files instead of 4.
+Output: Server's ABC will have test1 and test2, while Client's ABC will have test3 and test4.
+
+Testcase 3: (Involves 2 clients). Create a directory, add 2 files, commit & push, checkout on second client, modify 2 files on the original client, then update & upgrade on the second client.4
+Input: Create directory ABC, add 2 files test1 & test2 to one client, commit and push changes, second client checkouts the changes, first client modifies the two files, commits & pushes these changes, then the second client updates and upgrades to receive these changes.
+Output: Server, Client1, and Client 2 all have the directory ABC with both files test1 & test2 that are up to date. 
+ 
+Testcase 4: Create a directory, add 2 files, commit & push, remove one file, then call destroy.
+Input: Create directory ABC, add 2 files test1 & test2, commit and push changes, remove the second file from the Manifest file, then call destroy.
+Ouptut: The Manifest file only has an entry for one file, the client still has the directory ABC with test1 and test2, but the server's ABC directory is empty.
+
+Testcase 5: similar to test case 1, but this time, we have 2 levels of directory, our test shows that our code still works for that case.
+
+Test case 6: We have 2 clients, they both do commit at the same time, our test shows that the operation will fail. Though the displayed message says the test failed, actually is what we expected. CLIEN2 has to do a update first before doing commit.

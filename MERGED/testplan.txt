@@ -1,0 +1,69 @@
+#  ##=start of script, ### = end of script
+
+#These scripts are intended to test every command
+
+##TEST101
+mkdir -p TEST101/CLIENT
+mkdir -p TEST101/SERVER
+cd TEST101/SERVER; server 4872 & 
+cd TEST101/CLIENT; client configure localhost 4872; client create ABC; sleep 2;  echo 11111 > ABC/test1; echo 22222222 > ABC/test2; client add ABC test1; client add ABC test2; client commit ABC; sleep 2; client push ABC
+diff -r TEST101/CLIENT/ABC TEST101/SERVER/ABC | grep -v Commit | wc -l
+#rm -rf TEST101
+###
+
+##TEST202
+mkdir -p TEST202/CLIENT
+mkdir -p TEST202/SERVER
+cd TEST202/SERVER; server 3852 & 
+cd TEST202/CLIENT; client configure localhost 3852; client create DEF; sleep 2;  echo 11111 > DEF/test1; echo 22222222 > DEF/test2; client add DEF test1; client add DEF test2; client commit DEF; sleep 2; client push DEF; echo 33333333 > DEF/test3; echo 444444444 > DEF/test4; client add DEF test3; client add DEF test4; client commit DEF; sleep 2; client push DEF; sleep 2; client history DEF; sleep 2; client currentversion DEF; client rollback DEF 1
+diff -r TEST202/CLIENT/DEF TEST202/SERVER/DEF | grep -v Commit | wc -l
+#rm -rf TEST202
+###
+
+##TEST303
+mkdir -p TEST303/SERVER
+mkdir -p TEST303/CLIENT1
+mkdir -p TEST303/CLIENT2
+cd TEST303/SERVER; server 3794 & 
+cd TEST303/CLIENT1; client configure localhost 3794 
+cd TEST303/CLIENT2; client configure localhost 3794 
+cd TEST303/CLIENT1; client create GHI; sleep 2;  echo 11111 > GHI/test1; echo 22222222 > GHI/test2; client add GHI test1; client add GHI test2; client commit GHI; sleep 2; client push GHI; sleep 2 
+cd TEST303/CLIENT2; client checkout GHI 
+cd TEST303/CLIENT1; echo 99999 >> GHI/test1; echo 88888 >> GHI/test2 ; client commit GHI ; sleep 2; client push GHI; sleep 2
+cd TEST303/CLIENT2; client update GHI; sleep 2; client upgrade GHI; sleep 1
+diff -r TEST303/CLIENT2/GHI TEST303/SERVER/GHI | grep -v Commit | wc -l
+#rm -rf TEST303
+###
+
+##TEST 404
+mkdir -p TEST404/CLIENT
+mkdir -p TEST404/SERVER
+cd TEST404/SERVER; server 1597 & 
+cd TEST404/CLIENT; client configure localhost 1597; client create JKL; sleep 2;  echo 11111 > JKL/test1; echo 22222222 > JKL/test2; client add JKL test1; client add JKL test2; client commit JKL; sleep 2; client push JKL; client remove JKL test2; client destroy JKL
+diff -r TEST404/CLIENT/JKL TEST404/SERVER/JKL | grep -v Commit | wc -l
+#rm -rf TEST404
+###
+
+##TEST505 
+mkdir -p TEST505/CLIENT
+mkdir -p TEST505/SERVER
+cd TEST505/SERVER; server 5926 & 
+cd TEST505/CLIENT; client configure localhost 5926; client create ABC; sleep 2
+cd TEST505/CLIENT; mkdir -p ABC/dir1; mkdir -p ABC/dir2; echo 111111 > ABC/dir1/test1; echo 2222 > ABC/dir2/test2; client add ABC dir1/test1; client add ABC dir2/test2; client commit ABC; sleep 2; client push ABC
+diff -r TEST505/CLIENT/ABC TEST505/SERVER/ABC | grep -v Commit | wc -l
+#rm -rf TEST505
+###
+
+##TEST606
+mkdir -p TEST606/SERVER
+mkdir -p TEST606/CLIENT1
+mkdir -p TEST606/CLIENT2
+cd TEST606/SERVER; server 6852 & 
+cd TEST606/CLIENT1; client configure localhost 6852 
+cd TEST606/CLIENT2; client configure localhost 6852 
+cd TEST606/CLIENT1; client create GHI; sleep 2;  echo 11111 > GHI/test1; echo 22222222 > GHI/test2; client add GHI test1; client add GHI test2; client commit GHI; sleep 2; client push GHI; sleep 2 
+cd TEST606/CLIENT2; client checkout GHI 
+cd TEST606/CLIENT1; echo 99999 >> GHI/test1; echo 88888 >> GHI/test2 ; client commit GHI ; client push GHI
+cd TEST606/CLIENT2; echo 88888 >> GHI/test1; echo 99999 >> GHI/test2 ; client commit GHI ; client push GHI
+#rm -rf TEST606
+###
